@@ -1,10 +1,12 @@
 import Link from 'next/link';
+import { SectionStructuredData } from '@/components/seo/section-structured-data';
 import { PageWrapper } from '@/components/ui/page-layout';
 import { CartContents } from '@/features/merch/components/cart-contents';
 
 export default function CartPage() {
   return (
     <PageWrapper>
+      <SectionStructuredData type="CollectionPage" name="Neurodiversity Nation cart" description="Review official Neurodiversity Nation community merchandise before checkout." url="/cart" />
       <div className="mx-auto max-w-3xl py-8 sm:py-12">
         <div className="mb-8">
           <p className="text-accent text-sm font-semibold uppercase tracking-[0.18em]">Shopping bag</p>

@@ -1,5 +1,6 @@
 import { Headphones, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
+import { SectionStructuredData } from '@/components/seo/section-structured-data';
 import { PageWrapper } from '@/components/ui/page-layout';
 import { MerchGrid } from '@/features/merch/components/merch-grid';
 import { PodcastSearch } from '@/features/podcast/components/podcast-search';
@@ -11,6 +12,7 @@ export default async function HomePage() {
 
   return (
     <PageWrapper title="Neurodiversity Nation: Amplifying Voices">
+      <SectionStructuredData type="WebSite" name="Neurodiversity Nation: Amplifying Voices" description="Podcast conversations, advocacy resources, and community merchandise for neurodivergent people and allies." url="/" />
       <section className="relative mb-10 overflow-hidden rounded-3xl bg-[#171717] p-6 shadow-2xl sm:p-10">
         <div className="absolute -right-20 -top-28 h-72 w-72 rounded-full bg-accent/25 blur-3xl" aria-hidden="true" />
         <div className="absolute bottom-0 right-0 h-40 w-40 rounded-full bg-accent/10 blur-2xl" aria-hidden="true" />
