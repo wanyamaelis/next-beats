@@ -22,6 +22,7 @@ type PlayerAction =
   | { type: 'RESUME' }
   | { type: 'SET_PROGRESS'; progress: number }
   | { type: 'SET_VOLUME'; volume: number }
+  | { type: 'SET_PROGRESS'; progress: number }
   | { type: 'ENDED' };
 
 const initialState: PlayerState = {
@@ -52,6 +53,8 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
       return { ...state, progress: action.progress };
     case 'SET_VOLUME':
       return { ...state, volume: action.volume };
+    case 'SET_PROGRESS':
+      return { ...state, progress: action.progress };
     case 'ENDED':
       return { ...state, isPlaying: false, progress: 0 };
   }
@@ -66,6 +69,7 @@ type PlayerContextValue = PlayerState & {
   next: () => void;
   previous: () => void;
   setVolume: (v: number) => void;
+  seek: (percent: number) => void;
   playExternal: (track: Track, audioUrl: string) => void;
 };
 
@@ -255,14 +259,22 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   }
 
   function next() {
-    if (!track || queue.length <= 1) return;
+    if (!track) return;
+    if (queue.length <= 1) {
+      seek(0);
+      return;
+    }
     const currentIdx = queueIndexRef.current;
     const nextIdx = currentIdx < queue.length - 1 ? currentIdx + 1 : 0;
     playAtIndex(nextIdx, queue);
   }
 
   function previous() {
-    if (!track || queue.length <= 1) return;
+    if (!track) return;
+    if (queue.length <= 1) {
+      seek(0);
+      return;
+    }
     const currentIdx = queueIndexRef.current;
     const prevIdx = currentIdx > 0 ? currentIdx - 1 : queue.length - 1;
     playAtIndex(prevIdx, queue);
@@ -271,6 +283,15 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   function setVolume(v: number) {
     dispatch({ type: 'SET_VOLUME', volume: v });
     if (externalAudioRef.current) externalAudioRef.current.volume = v / 100;
+  }
+
+  function seek(percent: number) {
+    const nextProgress = Math.max(0, Math.min(100, percent));
+    const audio = externalAudioRef.current;
+    if (audio && Number.isFinite(audio.duration) && audio.duration > 0) {
+      audio.currentTime = (nextProgress / 100) * audio.duration;
+    }
+    dispatch({ progress: nextProgress, type: 'SET_PROGRESS' });
   }
 
   useListeningMilestones(isPlaying);
@@ -289,6 +310,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         queue,
         queueIndex,
         resume,
+        seek,
         setVolume,
         togglePlayPause,
         track,

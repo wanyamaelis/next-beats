@@ -38,7 +38,7 @@ export function PodcastSearch({ query }: { query?: string }) {
   const { playExternal, togglePlayPause, track, isPlaying } = usePlayer();
   const [episodes, setEpisodes] = useState<Episode[]>([]);
   const [shows, setShows] = useState<Show[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(() => Boolean(query?.trim()));
   const [error, setError] = useState('');
 
   function playEpisode(episode: Episode) {
@@ -109,7 +109,7 @@ export function PodcastSearch({ query }: { query?: string }) {
       {query?.trim() && episodes.length === 0 && shows.length === 0 && !isLoading && !error && <div className="bg-card dark:bg-card-dark rounded-xl p-5"><p className="font-semibold">No episodes found yet</p><p className="text-muted mt-1 text-sm">Your Spreaker catalog may still be syncing. Open Podcasts to browse the featured show.</p><a href="/podcasts" className="text-accent mt-3 inline-block text-sm font-semibold">Open podcast catalog</a></div>}
       <div className="grid gap-4 md:grid-cols-2">
         {episodes.map(episode => (
-          <article key={episode.id} className="bg-card dark:bg-card-dark flex gap-4 rounded-xl p-4">
+          <article key={episode.id} className="group bg-card dark:bg-card-dark flex gap-4 rounded-2xl p-4 shadow-sm ring-1 ring-black/5 transition-all hover:-translate-y-0.5 hover:shadow-md dark:ring-white/10">
             {episode.imageUrl ? <Image src={episode.imageUrl} alt={`${episode.title} cover`} width={96} height={96} className="h-24 w-24 shrink-0 rounded-xl object-cover shadow-sm" unoptimized /> : <div className="bg-accent/15 flex h-24 w-24 shrink-0 items-center justify-center rounded-lg text-accent"><Play className="h-6 w-6" /></div>}
             <div className="min-w-0 flex-1">
               <p className="text-muted mb-1 text-xs font-medium">{episode.author}</p>

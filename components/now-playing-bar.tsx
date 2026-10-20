@@ -8,7 +8,7 @@ import { formatDuration } from '@/lib/utils';
 import { usePlayer } from '@/providers/player-provider';
 
 export function NowPlayingBar() {
-  const { track, isPlaying, progress, volume, hasQueue, togglePlayPause, next, previous, setVolume } = usePlayer();
+  const { track, isPlaying, progress, volume, togglePlayPause, next, previous, seek, setVolume } = usePlayer();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const VolumeIcon = volume === 0 ? VolumeX : volume < 50 ? Volume1 : Volume2;
@@ -23,11 +23,11 @@ export function NowPlayingBar() {
           isPlaying={isPlaying}
           progress={progress}
           volume={volume}
-          hasQueue={hasQueue}
           onClose={() => setIsExpanded(false)}
           onToggle={togglePlayPause}
           onNext={next}
           onPrevious={previous}
+          onSeek={seek}
           onVolumeChange={setVolume}
         />
       ) : null}
@@ -54,9 +54,9 @@ export function NowPlayingBar() {
                 <TrackInfo title={track.title} subtitle={track.artist} />
               </div>
               <div className="flex items-center gap-3">
-                <SkipButton direction="back" onClick={previous} disabled={!hasQueue} />
+                <SkipButton direction="back" onClick={previous} disabled={!track} />
                 <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} />
-                <SkipButton direction="forward" onClick={next} disabled={!hasQueue} />
+                <SkipButton direction="forward" onClick={next} disabled={!track} />
               </div>
             </div>
             <div className="mt-2 flex items-center gap-2">
@@ -116,13 +116,13 @@ coverColor={track?.coverColor ?? 'from-gray-400 to-gray-600'}
             </div>
             <div className="flex w-full flex-col items-center gap-1">
               <div className="flex items-center gap-5">
-                <SkipButton direction="back" onClick={previous} disabled={!track || !hasQueue} />
+                <SkipButton direction="back" onClick={previous} disabled={!track} />
                 <PlayPauseButton isPlaying={isPlaying} onClick={togglePlayPause} disabled={!track} />
-                <SkipButton direction="forward" onClick={next} disabled={!track || !hasQueue} />
+                <SkipButton direction="forward" onClick={next} disabled={!track} />
               </div>
               <div className="flex w-full items-center gap-2">
                 <span className="text-muted w-8 text-right text-[10px]">{formatDuration(elapsed)}</span>
-                <SliderBar value={progress} onChange={() => {}} label="Seek" disabled />
+                <SliderBar value={progress} onChange={seek} label="Seek" disabled={!track} />
                 <span className="text-muted w-8 text-[10px]">{formatDuration(total)}</span>
               </div>
             </div>
@@ -233,10 +233,10 @@ function ExpandedPlayer({
   isPlaying,
   progress,
   volume,
-  hasQueue,
   onClose,
   onToggle,
   onNext,
+  onSeek,
   onPrevious,
   onVolumeChange,
 }: {
@@ -244,11 +244,11 @@ function ExpandedPlayer({
   isPlaying: boolean;
   progress: number;
   volume: number;
-  hasQueue: boolean;
   onClose: () => void;
   onToggle: () => void;
   onNext: () => void;
   onPrevious: () => void;
+  onSeek: (value: number) => void;
   onVolumeChange: (value: number) => void;
 }) {
   const elapsed = Math.floor((progress / 100) * track.duration);
@@ -267,13 +267,13 @@ function ExpandedPlayer({
           <TrackInfo title={track.title} subtitle={`${track.artist} · ${track.album}`} />
         </div>
         <div className="mt-8">
-          <SliderBar value={progress} onChange={() => {}} label="Seek" disabled />
+          <SliderBar value={progress} onChange={onSeek} label="Seek" />
           <div className="mt-2 flex justify-between text-xs text-muted"><span>{formatDuration(elapsed)}</span><span>{formatDuration(track.duration)}</span></div>
         </div>
         <div className="mt-8 flex items-center justify-center gap-8">
-          <SkipButton direction="back" onClick={onPrevious} disabled={!hasQueue} />
+          <SkipButton direction="back" onClick={onPrevious} disabled={!track} />
           <PlayPauseButton isPlaying={isPlaying} onClick={onToggle} />
-          <SkipButton direction="forward" onClick={onNext} disabled={!hasQueue} />
+          <SkipButton direction="forward" onClick={onNext} disabled={!track} />
         </div>
         <div className="mt-10 flex items-center gap-3">
           <Volume1 className="h-4 w-4 text-muted" />
