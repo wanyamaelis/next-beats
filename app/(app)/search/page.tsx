@@ -23,7 +23,7 @@ export default function SearchPage({ searchParams }: PageProps<'/search'>) {
               if (!q) {
                 return (
                   <>
-                    <h2 className="mb-4">Discover podcasts</h2>
+                    <div className="mb-5"><p className="text-accent text-xs font-bold uppercase tracking-[0.18em]">Podcast discovery</p><h2 className="mt-1 text-2xl font-bold">Find your next conversation</h2><p className="text-muted mt-2 text-sm">Search live Spreaker episodes and shows from Neurodiversity Nation.</p></div>
                     <PodcastSearch query="Neurodiversity Nation" />
                   </>
                 );
@@ -32,7 +32,7 @@ export default function SearchPage({ searchParams }: PageProps<'/search'>) {
                 <div className="space-y-10">
                   <section>
                     <div className="mb-4 flex items-baseline justify-between gap-4">
-                      <h2>Podcasts</h2>
+                      <h2>Episodes and shows</h2>
                       <span className="text-muted text-sm">From Spreaker</span>
                     </div>
                     <PodcastSearch query={q} />

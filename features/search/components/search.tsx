@@ -1,6 +1,6 @@
 'use client';
 
-import { Search as SearchIcon } from 'lucide-react';
+import { Search as SearchIcon, X } from 'lucide-react';
 import Form from 'next/form';
 import { useRouter } from 'next/navigation';
 import { useId, useRef, useTransition } from 'react';
@@ -20,15 +20,16 @@ export function Search({ children }: { children: React.ReactNode }) {
   return (
     <Boundary label="Search">
       <Form action="/search" replace scroll={false} className="relative mb-8 flex items-center">
-        <SearchIcon className="text-gray pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2" />
+        <SearchIcon aria-hidden="true" className="text-gray pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2" />
         <input
           ref={inputRef}
           id={inputId}
           type="search"
           name="q"
           autoComplete="off"
-          aria-label="Search tracks"
-          placeholder="What do you want to listen to?"
+          aria-label="Search podcast episodes and shows"
+          placeholder="Search episodes, shows, or topics"
+          enterKeyHint="search"
           suppressHydrationWarning
           onChange={event => {
             const value = event.target.value;
@@ -38,8 +39,11 @@ export function Search({ children }: { children: React.ReactNode }) {
               });
             });
           }}
-          className="!rounded-full !py-3 !pr-4 !pl-12 !text-base"
+          className="!rounded-full !py-3 !pr-11 !pl-12 !text-base"
         />
+        <button type="button" aria-label="Clear search" onClick={() => router.replace('/search')} className="text-muted hover:text-foreground absolute top-1/2 right-3 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full transition-colors" tabIndex={0}>
+          <X aria-hidden="true" className="h-4 w-4" />
+        </button>
         <SeedFromSearchParam targetId={inputId} param="q" />
       </Form>
       <div
