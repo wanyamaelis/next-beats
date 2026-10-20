@@ -1,4 +1,5 @@
 import { ShoppingBag } from 'lucide-react';
+import { SectionStructuredData } from '@/components/seo/section-structured-data';
 import { PageWrapper } from '@/components/ui/page-layout';
 import { MerchGrid } from '@/features/merch/components/merch-grid';
 import { getMerchProducts, isShopifyConfigured } from '@/lib/shopify/storefront';
@@ -7,6 +8,7 @@ export default async function MerchPage() {
   const products = isShopifyConfigured() ? await getMerchProducts() : [];
   return (
     <PageWrapper>
+      <SectionStructuredData type="CollectionPage" name="Neurodiversity Nation shop" description="Official community merchandise for listeners, advocates, families, and allies." url="/merch" />
       <section className="relative mb-8 overflow-hidden rounded-3xl bg-[#171717] p-6 text-white sm:mb-10 sm:p-10">
         <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-accent/25 blur-3xl" aria-hidden="true" />
         <div className="relative max-w-2xl">

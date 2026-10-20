@@ -1,3 +1,4 @@
+import { SectionStructuredData } from '@/components/seo/section-structured-data';
 import { AnimatedSuspense } from '@/components/ui/animated-suspense';
 import ErrorBoundary from '@/components/ui/error-boundary';
 import { PageWrapper } from '@/components/ui/page-layout';
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function SearchPage({ searchParams }: PageProps<'/search'>) {
   return (
     <PageWrapper title="Search">
+      <SectionStructuredData type="SearchResultsPage" name="Search Neurodiversity Nation" description="Search Neurodiversity Nation podcast shows and episodes." url="/search" />
       <Search>
         <ErrorBoundary title="Search is taking a breather">
           <AnimatedSuspense fallback={<Skeleton className="h-32 w-full" />}>
