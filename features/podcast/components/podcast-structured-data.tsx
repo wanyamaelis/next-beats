@@ -7,23 +7,24 @@ type PodcastStructuredDataProps = {
 };
 
 export function PodcastStructuredData({ title, description, image, url, episodeCount }: PodcastStructuredDataProps) {
+  const absoluteUrl = url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app'}${url}`;
   const graph = [
     {
-      '@context': 'https://schema.org',
+      '@id': `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app'}/#organization`,
       '@type': 'Organization',
       name: 'Neurodiversity Nation: Amplifying Voices',
       url: 'https://neurodiversitynation.com',
     },
     {
-      '@context': 'https://schema.org',
+      '@id': `${absoluteUrl}#podcast`,
       '@type': 'PodcastSeries',
-      author: { '@type': 'Organization', name: 'Neurodiversity Nation' },
+      author: { '@id': `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app'}/#organization` },
       description,
       image,
       name: title,
       numberOfEpisodes: episodeCount,
-      publisher: { '@type': 'Organization', name: 'Neurodiversity Nation' },
-      url,
+      publisher: { '@id': `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app'}/#organization` },
+      url: absoluteUrl,
       webFeed: 'https://www.spreaker.com/show/neurodiversity-nation-amplifying-voices',
     },
   ];

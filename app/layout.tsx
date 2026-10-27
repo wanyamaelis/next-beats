@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import { BoundaryProvider } from '@/components/demo/boundary';
 import { DemoToolbar } from '@/components/demo/demo-toolbar';
 import { OfflineIndicator } from '@/components/offline-indicator';
+import { SiteStructuredData } from '@/components/seo/site-structured-data';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { Toaster } from '@/components/toaster';
 import type { Metadata, Viewport } from 'next';
@@ -20,13 +21,22 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/' },
   applicationName: 'Neurodiversity Nation: Amplifying Voices',
   authors: [{ name: 'Neurodiversity Nation' }],
   creator: 'Neurodiversity Nation',
   description:
     'Neurodiversity Nation: Amplifying Voices — discover and listen to podcast episodes about lived experience, education, advocacy, and inclusive care.',
   keywords: ['neurodiversity podcast', 'autism podcast', 'neurodivergent voices', 'inclusive education', 'disability advocacy'],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neurodiversitynation.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app'),
+  openGraph: {
+    description: 'Podcast conversations about neurodivergent lived experience, education, advocacy, and inclusive care.',
+    siteName: 'Neurodiversity Nation: Amplifying Voices',
+    title: 'Neurodiversity Nation: Amplifying Voices',
+    type: 'website',
+    url: '/',
+  },
+  robots: { follow: true, index: true },
   title: {
     default: 'Neurodiversity Nation: Amplifying Voices',
     template: '%s · Neurodiversity Nation: Amplifying Voices',
@@ -37,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <body className="bg-surface dark:bg-surface-dark flex h-[100dvh] flex-col text-black antialiased dark:text-white">
+        <SiteStructuredData />
         <ThemeProvider>
           <BoundaryProvider>
             <OfflineIndicator />
