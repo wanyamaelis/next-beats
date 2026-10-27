@@ -6,15 +6,18 @@ type SectionStructuredDataProps = {
   items?: Array<{ name: string; url: string; image?: string }>;
 };
 
+const siteUrl = 'https://neurodiversitynation.com';
 const organization = {
+  '@id': `${siteUrl}/#organization`,
   '@type': 'Organization',
   name: 'Neurodiversity Nation',
-  url: 'https://neurodiversitynation.com',
+  url: siteUrl,
 };
 
 export function SectionStructuredData({ type, name, description, url, items = [] }: SectionStructuredDataProps) {
+  const absoluteUrl = url.startsWith('http') ? url : `${siteUrl}${url}`;
   const graph: Record<string, unknown>[] = [
-    { '@type': type, description, name, publisher: organization, url },
+    { '@id': `${absoluteUrl}#page`, '@type': type, description, isPartOf: { '@id': `${siteUrl}/#website` }, name, publisher: organization, url: absoluteUrl },
   ];
 
   if (items.length > 0) {

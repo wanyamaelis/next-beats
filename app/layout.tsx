@@ -6,6 +6,7 @@ import { Suspense } from 'react';
 import { BoundaryProvider } from '@/components/demo/boundary';
 import { DemoToolbar } from '@/components/demo/demo-toolbar';
 import { OfflineIndicator } from '@/components/offline-indicator';
+import { SiteStructuredData } from '@/components/seo/site-structured-data';
 import { ThemeProvider } from '@/components/theme/theme-provider';
 import { Toaster } from '@/components/toaster';
 import type { Metadata, Viewport } from 'next';
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <body className="bg-surface dark:bg-surface-dark flex h-[100dvh] flex-col text-black antialiased dark:text-white">
+        <SiteStructuredData />
         <ThemeProvider>
           <BoundaryProvider>
             <OfflineIndicator />
