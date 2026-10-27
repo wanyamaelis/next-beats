@@ -1,4 +1,4 @@
-const siteUrl = 'https://neurodiversitynation.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app';
 
 export function SiteStructuredData() {
   const graph = [

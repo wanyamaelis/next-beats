@@ -6,7 +6,7 @@ type SectionStructuredDataProps = {
   items?: Array<{ name: string; url: string; image?: string }>;
 };
 
-const siteUrl = 'https://neurodiversitynation.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app';
 const organization = {
   '@id': `${siteUrl}/#organization`,
   '@type': 'Organization',

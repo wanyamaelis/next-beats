@@ -21,13 +21,22 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/' },
   applicationName: 'Neurodiversity Nation: Amplifying Voices',
   authors: [{ name: 'Neurodiversity Nation' }],
   creator: 'Neurodiversity Nation',
   description:
     'Neurodiversity Nation: Amplifying Voices — discover and listen to podcast episodes about lived experience, education, advocacy, and inclusive care.',
   keywords: ['neurodiversity podcast', 'autism podcast', 'neurodivergent voices', 'inclusive education', 'disability advocacy'],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://neurodiversitynation.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://next-beats-five.vercel.app'),
+  openGraph: {
+    description: 'Podcast conversations about neurodivergent lived experience, education, advocacy, and inclusive care.',
+    siteName: 'Neurodiversity Nation: Amplifying Voices',
+    title: 'Neurodiversity Nation: Amplifying Voices',
+    type: 'website',
+    url: '/',
+  },
+  robots: { follow: true, index: true },
   title: {
     default: 'Neurodiversity Nation: Amplifying Voices',
     template: '%s · Neurodiversity Nation: Amplifying Voices',
